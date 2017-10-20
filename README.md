@@ -18,4 +18,11 @@ While typically run on a Heroku server, one can install the source code for deve
 
 The encrypt.io API is simple. Below are the different routes used to upload files to the server, along with the needed information for the encryption process:
 
-
+| Tables|Data Required| Method|Return Data|
+|---|---|---|---|
+| /upload/encrypt/caesar/|File, Shift magnitude|POST|Encrypted file|
+| /upload/encrypt/pad/|File|POST|Encrypted File, key phrase|
+| /upload/encrypt/AES|File| POST|Encrypted file, key phrase|
+| /upload/decrypt/caesar/|Encrypted file, Original shift magnitude|POST|Decrypted file|
+| /upload/decrypt/pad/|File, Provided key phrase|POST|Decrypted File|
+| /upload/decrypt/AES|File, Provided key phrase| POST|Decrypted file|
