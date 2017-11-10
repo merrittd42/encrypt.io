@@ -13,45 +13,59 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/upload/encrypt/caesar', upload.single('encryptFile'), function (req, res){
+  var shiftAmount = req.body.key;
   var file = req.file;
   var fileLoc = file.path;
-  var encryptedFilePath = caesar.encryptCaesar(fileLoc);
-  res.sendFile(encryptedFilePath);
+  var encryptedFilePath = caesar.encryptCaesar(fileLoc, shiftAmount);
+  res.download(encryptedFilePath);
 })
 
 router.post('/upload/encrypt/onetimepad', upload.single('encryptFile'), function (req, res){
+  var returnArray = [];
   var file = req.file;
   var fileLoc = file.path;
-  var encryptedFilePath = pad.encryptPad(fileLoc);
-  res.sendFile(encryptedFilePath);
+  returnArray = pad.encryptPad(fileLoc);
+  var encryptedFilePath = returnArray[0];
+  var key = returnArray[1];
+  res.download(encryptedFilePath);
+  res.json({
+      "key" : key
+  });
 })
 
 router.post('/upload/encrypt/aes', upload.single('encryptFile'), function (req, res){
+  var returnArray = [];
   var file = req.file;
   var fileLoc = file.path;
-  var encryptedFilePath = aes.encryptAES(fileLoc);
-  res.sendFile(encryptedFilePath);
+  returnArray = aes.encryptAES(fileLoc);
+  var encryptedFilePath = returnArray[0];
+  var key = returnArray[1];
+  res.download(encryptedFilePath);
+  res.json({
+      "key" : key
+  });
 })
 
 router.post('/upload/decrypt/caesar', upload.single('encryptFile'), function (req, res){
+  var shiftAmount = req.body.key;
   var file = req.file;
   var fileLoc = file.path;
-  var encryptedFilePath = encryptCaesar(fileLoc);
-  res.sendFile(encryptedFilePath);
+  var encryptedFilePath = caesar.decryptCaesar(fileLoc, key);
+  res.download(encryptedFilePath);
 })
 
 router.post('/upload/decrypt/onetimepad', upload.single('encryptFile'), function (req, res){
   var file = req.file;
   var fileLoc = file.path;
-  var encryptedFilePath = encryptCaesar(fileLoc);
-  res.sendFile(encryptedFilePath);
+  var encryptedFilePath = pad.decryptPad(fileLoc, key);
+  res.download(encryptedFilePath);
 })
 
 router.post('/upload/decrypt/aes', upload.single('encryptFile'), function (req, res){
   var file = req.file;
   var fileLoc = file.path;
-  var encryptedFilePath = encryptCaesar(fileLoc);
-  res.sendFile(encryptedFilePath);
+  var encryptedFilePath = aes.decryptAES(fileLoc, key);
+  res.download(encryptedFilePath);
 })
 
 module.exports = router;
