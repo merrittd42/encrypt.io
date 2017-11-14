@@ -21,7 +21,7 @@ The encrypt.io API is simple. Below are the different routes used to upload file
 | Tables|Data Required| Method|Return Data|
 |---|---|---|---|
 | /upload/encrypt/caesar/|File, Shift magnitude|POST|Encrypted file|
-| /upload/encrypt/pad/|File|POST|Encrypted File, key phrase|
+| /upload/encrypt/onetimepad/|File|POST|Encrypted File, key phrase|
 | /upload/encrypt/AES|File| POST|Encrypted file, key phrase|
 | /upload/decrypt/caesar/|Encrypted file, Original shift magnitude|POST|Decrypted file|
 | /upload/decrypt/pad/|File, Provided key phrase|POST|Decrypted File|

@@ -29,10 +29,12 @@ router.post('/upload/encrypt/onetimepad', upload.single('encryptFile'), function
   returnArray = pad.encryptPad(fileLoc);
   var encryptedFilePath = returnArray[0];
   var key = returnArray[1];
-  res.download(encryptedFilePath);
-  res.json({
-      "key" : key
-  });
+  res.download(encryptedFilePath, "yourEncryptedFile.txt");
+  // res.json({
+  //   "key" : key
+  // });
+
+  // Cannot do res.json and res.download since they both call res.end
 })
 
 router.post('/upload/encrypt/aes', upload.single('encryptFile'), function (req, res){

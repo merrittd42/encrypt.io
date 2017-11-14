@@ -61,9 +61,9 @@ function methodChangeEventHandler(event) {
 
   }
   else if(selector.value == "One Time Pad"){
-    uploadForm.action = "/upload/encrypt/pad/";
-      keyPhrase.style.visibility = "visible";
-      keyPhraseHead.style.visibility = "visible";
+    uploadForm.action = "/upload/encrypt/onetimepad/";
+      keyPhrase.style.visibility = "hidden";
+      keyPhraseHead.style.visibility = "hidden";
         shiftMag.style.visibility = "hidden";
         shiftMagHead.style.visibility = "hidden";
   }
@@ -79,14 +79,12 @@ function methodChangeEventHandler(event) {
 
 function clicked() {
   var shiftInput = shiftMag.value;
-  var keyInput = keyPhrase.value;
-
 
     if((shiftInput  != "") && shiftMag.style.visibility == "visible" && file.value != ""){
         post(file.value, uploadForm.action, {data: shiftInput});
     }
-    else if((keyInput != "") && keyPhrase.style.visibility == "visible" && file.value != ""){
-      post(file.value,uploadForm.action, {data: keyInput});
+    else if(selector.value == "One Time Pad" && file.value != ""){
+      post(file.value,uploadForm.action);
     }
     else{
          return confirm("Error: invalid file or data input.");

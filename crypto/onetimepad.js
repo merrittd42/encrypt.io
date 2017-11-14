@@ -10,7 +10,47 @@ module.exports = {
       1st index.
     */
     encryptPad : function(fileLoc){
+      var outputFileLoc = fileLoc + '.enc';
+      var fs = require('fs');	  
+  
+      var plainText = fs.readFileSync(fileLoc); // read plain text from input file
+      var cipherText = '';
+      var padKey = '';
+  
+      // perform encryption one character at a time
+      for (var i = 0, len = plainText.length; i < len; i++) {
+        var nextChar = '';		
+        var byteCode = plainText[i]; // get byte code for this character 
+        
+        var shiftAmount = Math.floor(Math.random() * 26) + 1; // gets a number between 1 and 26
 
+        if(byteCode >= 65 && byteCode <= 90){ // character is an upper case letter
+          encryptedCode = ((byteCode - 65 + shiftAmount) % 26) + 65;
+          nextChar = String.fromCharCode(encryptedCode);
+        }else if(byteCode >= 97 && byteCode <= 122){ // character is a lower case letter
+          encryptedCode = ((byteCode - 97 + shiftAmount) % 26) + 97;
+          nextChar = String.fromCharCode(encryptedCode);
+        }else{ // character is not a letter
+          nextChar = String.fromCharCode(plainText[i]);
+        }
+
+        padKey += shiftAmount.toString(); // slowly create the pad key
+
+        cipherText += nextChar; // append the (possibly encrypted) char to the cipher text
+      }
+  
+      // write cipher text to output file location
+      fs.writeFile(outputFileLoc, cipherText,  function(err) {
+        if (err) {
+          return console.error(err);
+        }
+      });
+
+      var output = new Array(2);
+      output[0] = outputFileLoc;
+      output[1] = padKey;
+  
+      return output; // return location of encrypted file
     },
 
     /*
