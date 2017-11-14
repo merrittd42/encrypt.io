@@ -19,7 +19,7 @@ module.exports = {
 		// perform encryption one character at a time
 		for (var i = 0, len = plainText.length; i < len; i++) {
 			var nextChar = '';		
-			var byteCode = plainText[i];//plainText.charCodeAt(i); // get byte code for this character 
+			var byteCode = plainText[i]; // get byte code for this character 
 				
 			if(byteCode >= 65 && byteCode <= 90){ // character is an upper case letter
 				encryptedCode = ((byteCode - 65 + shiftAmount) % 26) + 65;
