@@ -1,19 +1,6 @@
 <!DOCTYPE html>
 <html >
 <head>
-  <meta charset="UTF-8">
-  <title>tOSUCrypto</title>
-
-
-
-
-
-
-</head>
-
-<body>
-  <html >
-<head>
 
   <meta charset="UTF-8">
   <title>tOSUCrypto.com</title>
@@ -24,27 +11,24 @@
     <link rel="stylesheet" href="https://unpkg.com/onsenui/css/material-design-iconic-font/css/material-design-iconic-font.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
       <link rel="stylesheet" href="css/style.css">
-      <style>
-
-</style>
 </head>
-
 <body>
-
-
-
   <div class="container">
-
-
-
-
 </div>
 
 <div id="parent">
 
     <div class="child"><h1>tOSUCrypto</h1>
     </div>
-    <div class="child"><h2>1. Choose your encryption method:</h2><br><br>
+    <div class="child"><h2>1. Choose mode:</h2><br><br>
+      <center><span class="custom-dropdown custom-dropdown--emerald custom-dropdown--large">
+    <select class="custom-dropdown__select custom-dropdown__select--emerald" id="mode">
+        <option>Encrypt</option>
+        <option>Decrypt</option>
+    </select>
+</span>      </center>
+    </div>
+    <div class="child"><h2>2. Choose your encryption method:</h2><br><br>
       <center><span class="custom-dropdown custom-dropdown--emerald custom-dropdown--large">
     <select class="custom-dropdown__select custom-dropdown__select--emerald" id="selector">
         <option>Caesar Cipher</option>
@@ -54,9 +38,9 @@
 </span>      </center>
     </div>
 
-    <div class="child" id="uploadArea"><h2>2. Upload the file to be encrypted:</h2>
+    <div class="child" id="uploadArea"><h2>3. Upload the file to be encrypted:</h2>
     <center>  <form>
-      <h3 id="shiftMagHead">Enter shift magnitude: <input name ="shift" type="text" id="shiftMag" value=""><br></h3>
+      <h3 id="shiftMagHead">Enter shift magnitude: <input name = "shift" type="text" id="shiftMag" value=""><br></h3>
 
     </form></center>
     <center>  <form>
@@ -67,41 +51,14 @@
 
     <form ref='uploadForm' encType="multipart/form-data" class="" action="" id="uploadForm" method="post">
       <input type="file" name="encryptFile" value="" id = "file"><br><br>
-      <input type="text" name="shift" value="" id ="shiftMag"><br>
+      <input type= "text" name ="shift" value="" id = "shiftMag"><br>
       <input type="submit" name="" id="encryptButton" value="Encrypt" onclick="return clicked()">
     </form>
   </div></center>
 
     </div>
         </div>
-
-<!--<center><div class="segment segment--material" style="width: 280px; margin: 0 auto;">
-  <div class="segment__item segment--material__item">
-    <input type="radio" class="segment__input segment--material__input" name="segment-b" checked>
-    <button class="segment__button segment--material__button">Caesar</button>
-  </div>
-  <div class="segment__item segment--material__item">
-    <input type="radio" class="segment__input segment--material__input" name="segment-b">
-    <button class="segment__button segment--material__button">One-Time</button>
-  </div>
-  <div class="segment__item segment--material__item">
-    <input type="radio" class="segment__input segment--material__input" name="segment-b">
-    <button class="segment__button segment--material__button">AES</button>
-  </div>
-</div></center> -->
-
-
-<!--
-    <div class="file-upload-wrapper" data-text="Select the file to be encrypted">
-      <input name="file-upload-field" type="file" class="file-upload-field" value="">
-    </div>
-  </form>
-</div>
--->
-
   </body>
 
 </html>
-
-
-    <script  src="js/index.js"></script>
+<script  src="js/index.js"></script>

@@ -1,26 +1,27 @@
 
 
-/* FILE UPLOAD Javascript/AJAX to go here...
-
-var form = document.getElementById('file-upload-field');
-var fileSelect = document.getElementById('file-upload-wrapper');
-var uploadButton = document.getElementById('upload-button');
-*/
-
-
+/* FILE UPLOAD Javascript to go here */
 
 
 
 
 var selector = document.getElementById('selector');
+var mode = document.getElementById('mode');
+var encryptButton = document.getElementById('encryptButton');
 //var encryptButton = document.getElementById('encryptButton');
 //encryptButton.onClick = upload();
 selector.value = "Caesar Cipher";
+mode.value = "Encrypt";
+
+console.log(mode);
 
 document.addEventListener('DOMContentLoaded',function() {
-    selector.onchange=methodChangeEventHandler;
-
+    mode.onchange=modeChangeEventHandler;
 },false);
+document.addEventListener('DOMContentLoaded',function() {
+    selector.onchange=methodChangeEventHandler;
+},false);
+
 
 
 var uploadForm = document.getElementById('uploadForm');
@@ -40,8 +41,6 @@ var file = document.getElementById('file');
 file.addEventListener("change", handleFiles, false);
 function handleFiles() {
   var fileList = this.files;
-  console.log(fileList);
-  console.log(file.value); /* now you can work with the file list */
 }
     keyPhrase.style.visibility = "hidden";
     keyPhraseHead.style.visibility = "hidden";
@@ -49,11 +48,48 @@ function handleFiles() {
     shiftMagHead.style.visibility = "visible";
     uploadForm.action = "/upload/encrypt/caesar/";
 
+function modeChangeEventHandler(event){
+  if(selector.value == "Caesar Cipher" && mode.value == "Encrypt"){
+    uploadForm.action = "/upload/encrypt/caesar/";
+  }
+  else if (selector.value == "Caesar Cipher" && mode.value == "Decrypt") {
+    uploadForm.action = "/upload/decrypt/caesar/";
+  }
+  if (selector.value == "One Time Pad" && mode.value == "Encrypt") {
+    uploadForm.action = "/upload/encrypt/onetimepad/";
+  }
+  else if (selector.value == "One Time Pad" && mode.value == "Decrypt") {
+    uploadForm.action = "/upload/decrypt/onetimepad/";
+  }
+  if (selector.value == "AES" && mode.value == "Encrypt") {
+    uploadForm.action = "/upload/encrypt/AES/";
+  }
+  else if (selector.value == "AES" && mode.value == "Decrypt") {
+    uploadForm.action = "/upload/decrypt/AES/";
+  }
+
+  if(mode.value == "Decrypt"){
+    encryptButton.value = "Decrypt";
+  }
+  else{
+    encryptButton.value = "Encrypt";
+  }
+
+}
+
+
+shiftMag.style.visibility = "visible";
+shiftMagHead.style.visibility = "visible";
+keyPhrase.style.visibility = "hidden";
+keyPhraseHead.style.visibility = "hidden";
+shiftMag.value = "";
+keyPhrase.value = "";
+
 function methodChangeEventHandler(event) {
+  modeChangeEventHandler(null);
   shiftMag.value = "";
   keyPhrase.value = "";
   if(selector.value == "Caesar Cipher"){
-    uploadForm.action = "/upload/encrypt/caesar/";
     shiftMag.style.visibility = "visible";
     shiftMagHead.style.visibility = "visible";
     keyPhrase.style.visibility = "hidden";
@@ -61,14 +97,12 @@ function methodChangeEventHandler(event) {
 
   }
   else if(selector.value == "One Time Pad"){
-    uploadForm.action = "/upload/encrypt/onetimepad/";
-      keyPhrase.style.visibility = "hidden";
-      keyPhraseHead.style.visibility = "hidden";
+        keyPhrase.style.visibility = "hidden";
+        keyPhraseHead.style.visibility = "hidden";
         shiftMag.style.visibility = "hidden";
         shiftMagHead.style.visibility = "hidden";
   }
   else{
-    uploadForm.action = "/upload/encrypt/AES";
     keyPhrase.style.visibility = "visible";
     keyPhraseHead.style.visibility = "visible";
     shiftMag.style.visibility = "hidden";
@@ -79,11 +113,13 @@ function methodChangeEventHandler(event) {
 
 function clicked() {
   var shiftInput = shiftMag.value;
+  var keyInput = keyPhrase.value;
+
 
     if((shiftInput  != "") && shiftMag.style.visibility == "visible" && file.value != ""){
         post(file.value, uploadForm.action, {data: shiftInput});
     }
-    else if(selector.value == "One Time Pad" && file.value != ""){
+    else if((selector.value == "One Time Pad") && file.value != ""){
       post(file.value,uploadForm.action);
     }
     else{
