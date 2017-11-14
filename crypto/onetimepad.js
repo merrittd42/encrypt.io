@@ -5,13 +5,22 @@ module.exports = {
       fileLoc - Location on the server filesystem of the uploaded fileLoc
 
     Returns:
-      Needs to return a two-tuple array with the file location of the
-      encrypted file in the 0th index, and the randomly generated pad key in the
-      1st index.
+      Needs to return a zipped folder containing two files: the encrypted file,
+      and a file that contains the pad key.
     */
     encryptPad : function(fileLoc){
       var outputFileLoc = fileLoc + '.enc';
       var fs = require('fs');	  
+      var archiver = require('archiver');
+      var path = require('path');
+
+      var zipLoc = path.dirname(fileLoc) + '/padEncryption.zip';
+      
+      // create a file to stream archive data to.
+      var output = fs.createWriteStream(zipLoc);
+      var archive = archiver('zip', {
+        zlib: { level: 9 } // Sets the compression level.
+      });
   
       var plainText = fs.readFileSync(fileLoc); // read plain text from input file
       var cipherText = '';
@@ -46,11 +55,17 @@ module.exports = {
         }
       });
 
-      var output = new Array(2);
-      output[0] = outputFileLoc;
-      output[1] = padKey;
+      archive.append(fs.createReadStream(outputFileLoc), { name: 'encryptedFile.txt' });
+
+      // append a file from string
+      archive.append(padKey, { name: 'pad.txt' });
+
+      archive.finalize();
+
+      // pipe archive data to the file
+      archive.pipe(output);
   
-      return output; // return location of encrypted file
+      return zipLoc; // return location of encrypted folder
     },
 
     /*
