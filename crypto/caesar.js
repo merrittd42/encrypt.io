@@ -65,10 +65,10 @@ module.exports = {
 			var byteCode = cipherText[i]; // get byte code for this character 
 				
 			if(byteCode >= 65 && byteCode <= 90){ // character is an upper case letter
-				encryptedCode = ((byteCode - 65 - shiftAmount) % 26) + 65;
+				encryptedCode = ((byteCode - 65 - shiftAmount + 26) % 26) + 65;
 				nextChar = String.fromCharCode(encryptedCode);
 			}else if(byteCode >= 97 && byteCode <= 122){ // character is a lower case letter
-				encryptedCode = ((byteCode - 97 - shiftAmount) % 26) + 97;
+				encryptedCode = ((byteCode - 97 - shiftAmount + 26) % 26) + 97;
 				nextChar = String.fromCharCode(encryptedCode);
 			}else{ // character is not a letter
 				nextChar = String.fromCharCode(cipherText[i]);
