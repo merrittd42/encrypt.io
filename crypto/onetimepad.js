@@ -10,27 +10,27 @@ module.exports = {
     */
     encryptPad : function(fileLoc){
       var outputFileLoc = fileLoc + '.enc';
-      var fs = require('fs');	  
+      var fs = require('fs');
       var archiver = require('archiver');
       var path = require('path');
 
       var zipLoc = path.dirname(fileLoc) + '/padEncryption.zip';
-      
+
       // create a file to stream archive data to.
       var output = fs.createWriteStream(zipLoc);
       var archive = archiver('zip', {
         zlib: { level: 9 } // Sets the compression level.
       });
-  
+
       var plainText = fs.readFileSync(fileLoc); // read plain text from input file
       var cipherText = '';
       var padKey = '';
-  
+
       // perform encryption one character at a time
       for (var i = 0, len = plainText.length; i < len; i++) {
-        var nextChar = '';		
-        var byteCode = plainText[i]; // get byte code for this character 
-        
+        var nextChar = '';
+        var byteCode = plainText[i]; // get byte code for this character
+
         var shiftAmount = Math.floor(Math.random() * 26) + 1; // gets a number between 1 and 26
 
         if(byteCode >= 65 && byteCode <= 90){ // character is an upper case letter
@@ -47,9 +47,9 @@ module.exports = {
 
         cipherText += nextChar; // append the (possibly encrypted) char to the cipher text
       }
-  
+
       // write cipher text to output file location
-      fs.writeFile(outputFileLoc, cipherText,  function(err) {
+      fs.writeFileSync(outputFileLoc, cipherText,  function(err) {
         if (err) {
           return console.error(err);
         }
@@ -64,7 +64,7 @@ module.exports = {
 
       // pipe archive data to the file
       archive.pipe(output);
-  
+
       return zipLoc; // return location of encrypted folder
     },
 

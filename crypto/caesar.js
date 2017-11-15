@@ -11,16 +11,16 @@ module.exports = {
     */
     encryptCaesar: function(fileLoc, shiftAmount){
 		var outputFileLoc = fileLoc + '.enc';
-		var fs = require('fs');	  
+		var fs = require('fs');
 
 		var plainText = fs.readFileSync(fileLoc); // read plain text from input file
 		var cipherText = '';
 
 		// perform encryption one character at a time
 		for (var i = 0, len = plainText.length; i < len; i++) {
-			var nextChar = '';		
-			var byteCode = plainText[i]; // get byte code for this character 
-				
+			var nextChar = '';
+			var byteCode = plainText[i]; // get byte code for this character
+
 			if(byteCode >= 65 && byteCode <= 90){ // character is an upper case letter
 				encryptedCode = ((byteCode - 65 + shiftAmount) % 26) + 65;
 				nextChar = String.fromCharCode(encryptedCode);
@@ -35,7 +35,7 @@ module.exports = {
 		}
 
 		// write cipher text to output file location
-		fs.writeFile(outputFileLoc, cipherText,  function(err) {
+		fs.writeFileSync(outputFileLoc, cipherText,  function(err) {
 			if (err) {
 			  return console.error(err);
 			}
@@ -54,16 +54,16 @@ module.exports = {
     */
     decryptCaesar: function(fileLoc, shiftAmount){
 		var outputFileLoc = fileLoc + '.dec';
-		var fs = require('fs');	  
+		var fs = require('fs');
 
 		var cipherText = fs.readFileSync(fileLoc); // read cipher text from input file
 		var plainText = '';
 
 		// perform encryption one character at a time
 		for (var i = 0, len = cipherText.length; i < len; i++) {
-			var nextChar = '';		
-			var byteCode = cipherText[i]; // get byte code for this character 
-				
+			var nextChar = '';
+			var byteCode = cipherText[i]; // get byte code for this character
+
 			if(byteCode >= 65 && byteCode <= 90){ // character is an upper case letter
 				encryptedCode = ((byteCode - 65 - shiftAmount + 26) % 26) + 65;
 				nextChar = String.fromCharCode(encryptedCode);
@@ -78,7 +78,7 @@ module.exports = {
 		}
 
 		// write cipher text to output file location
-		fs.writeFile(outputFileLoc, plainText,  function(err) {
+		fs.writeFileSync(outputFileLoc, plainText,  function(err) {
 			if (err) {
 			  return console.error(err);
 			}

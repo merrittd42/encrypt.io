@@ -13,13 +13,10 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/upload/encrypt/caesar', upload.single('encryptFile'), function (req, res){
-  console.log(req.body);
   var shiftAmount = parseInt(req.body.shift);
-  console.log(shiftAmount);
   var file = req.file;
   var fileLoc = file.path;
   var encryptedFilePath = caesar.encryptCaesar(fileLoc, shiftAmount);
-  console.log(encryptedFilePath);
   res.download(encryptedFilePath, "yourEncryptedFile.txt");
 })
 
@@ -27,7 +24,6 @@ router.post('/upload/encrypt/onetimepad', upload.single('encryptFile'), function
   var file = req.file;
   var fileLoc = file.path;
   var zipLoc = pad.encryptPad(fileLoc);
-  console.log(zipLoc);
   res.download(zipLoc);
 })
 
