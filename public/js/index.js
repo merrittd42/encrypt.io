@@ -64,10 +64,10 @@ function modeChangeEventHandler(event){
     uploadForm.action = "/upload/decrypt/onetimepad/";
   }
   if (selector.value == "AES" && mode.value == "Encrypt") {
-    uploadForm.action = "/upload/encrypt/AES/";
+    uploadForm.action = "/upload/encrypt/weirdsub/";
   }
   else if (selector.value == "AES" && mode.value == "Decrypt") {
-    uploadForm.action = "/upload/decrypt/AES/";
+    uploadForm.action = "/upload/decrypt/weirdsub/";
   }
 
   if(mode.value == "Decrypt"){
@@ -98,15 +98,15 @@ function methodChangeEventHandler(event) {
     keyPhraseHead.style.visibility = "hidden";
 
   }
-  else if(selector.value == "One Time Pad"){
+  else if((selector.value == "One Time Pad" || selector.value == "Wacky Substitution") && encryptButton.value == "Decrypt"){
         keyPhrase.style.visibility = "visible";
         keyPhraseHead.style.visibility = "visible";
         shiftMag.style.visibility = "hidden";
         shiftMagHead.style.visibility = "hidden";
   }
   else{
-    keyPhrase.style.visibility = "visible";
-    keyPhraseHead.style.visibility = "visible";
+    keyPhrase.style.visibility = "hidden";
+    keyPhraseHead.style.visibility = "hidden";
     shiftMag.style.visibility = "hidden";
     shiftMagHead.style.visibility = "hidden";
   }

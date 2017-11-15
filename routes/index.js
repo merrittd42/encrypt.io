@@ -27,7 +27,7 @@ router.post('/upload/encrypt/onetimepad', upload.single('encryptFile'), function
   res.download(zipLoc);
 })
 
-router.post('/upload/encrypt/aes', upload.single('encryptFile'), function (req, res){
+router.post('/upload/encrypt/weirdsub', upload.single('encryptFile'), function (req, res){
   var returnArray = [];
   var file = req.file;
   var fileLoc = file.path;
@@ -55,7 +55,7 @@ router.post('/upload/decrypt/onetimepad', upload.single('encryptFile'), function
   res.download(encryptedFilePath);
 })
 
-router.post('/upload/decrypt/aes', upload.single('encryptFile'), function (req, res){
+router.post('/upload/decrypt/weirdsub', upload.single('encryptFile'), function (req, res){
   var file = req.file;
   var fileLoc = file.path;
   var encryptedFilePath = aes.decryptAES(fileLoc, key);
