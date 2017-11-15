@@ -13,6 +13,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/upload/encrypt/caesar', upload.single('encryptFile'), function (req, res){
+  console.log(req.body);
   var shiftAmount = parseInt(req.body.shift);
   console.log(shiftAmount);
   var file = req.file;

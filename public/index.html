@@ -40,7 +40,7 @@
 
     <div class="child" id="uploadArea"><h2>3. Upload the file to be encrypted:</h2>
     <center>  <form>
-      <h3 id="shiftMagHead">Enter shift magnitude: <input name = "shift" type="text" id="shiftMag" value=""><br></h3>
+      <h3 id="shiftMagHead">Enter shift magnitude: <input name = "shiftHold" type="text" id="shiftMag" value=""><br></h3>
 
     </form></center>
     <center>  <form>
@@ -50,9 +50,12 @@
     <center><div class="child" id="uploadField">
 
     <form ref='uploadForm' encType="multipart/form-data" class="" action="" id="uploadForm" method="post">
-      <input type="file" name="encryptFile" value="" id = "file"><br><br>
-      <input type= "text" name ="shift" value="" id = "shiftMag"><br>
+      <input type="file" name="encryptFile" value="" id="file"><br>
+      <br>
       <input type="submit" name="" id="encryptButton" value="Encrypt" onclick="return clicked()">
+      <br>
+      <input type= "text" name="shift" value="" id="shiftMagF" style="visibility:hidden"><br>
+      <input name = "key" type="text" id="keyPhraseF" value="" style="visibility:hidden">
     </form>
   </div></center>
 

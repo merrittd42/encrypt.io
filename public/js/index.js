@@ -33,9 +33,11 @@ var inputElement = document.getElementById("input");
 //uploadForm.action = "/upload/encrypt/caesar/";
 
 var shiftMag = document.getElementById('shiftMag');
+var shiftMagHidden = document.getElementById('shiftMagF');
 var shiftMagHead = document.getElementById('shiftMagHead');
 var keyPhrase = document.getElementById('keyPhrase');
 var keyPhraseHead = document.getElementById('keyPhraseHead');
+var keyPhraseHidden = document.getElementById('keyPhraseF');
 var file = document.getElementById('file');
 
 file.addEventListener("change", handleFiles, false);
@@ -97,8 +99,8 @@ function methodChangeEventHandler(event) {
 
   }
   else if(selector.value == "One Time Pad"){
-        keyPhrase.style.visibility = "hidden";
-        keyPhraseHead.style.visibility = "hidden";
+        keyPhrase.style.visibility = "visible";
+        keyPhraseHead.style.visibility = "visible";
         shiftMag.style.visibility = "hidden";
         shiftMagHead.style.visibility = "hidden";
   }
@@ -117,9 +119,11 @@ function clicked() {
 
 
     if((shiftInput  != "") && shiftMag.style.visibility == "visible" && file.value != ""){
+        shiftMagHidden.value = shiftInput;
         post(file.value, uploadForm.action, {data: shiftInput});
     }
     else if((selector.value == "One Time Pad") && file.value != ""){
+      keyPhraseHidden.value = keyInput;
       post(file.value,uploadForm.action);
     }
     else{
