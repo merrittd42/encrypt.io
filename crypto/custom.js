@@ -19,13 +19,13 @@ module.exports = {
 		
 		var key = generateRandomKey(); // generate a random 64-byte key
 		
+		var prevKeyCode = '0'; //initialize as 0
 		// perform encryption one character at a time
 		for (var i = 0, len = plainText.length; i < len; i++) {
 			var nextCharByteCode = '';
 			var byteCode = plainText[i]; // get byte code for this character 
 			
 			var currentKeyCode = key[i % key.length]; // get current index of key to look at
-			var prevKeyCode = key[(i-1) % key.length]; //get previous index of key for specific encryptions
 
 			switch(currentKeyCode){ // encrypt next byte based on current key code
 				case '0':
@@ -79,6 +79,7 @@ module.exports = {
 			}
 
 			cipherText += String.fromCharCode(nextCharByteCode); // append the encrypted char to the cipher text
+			prevKeyCode = currentKeyCode; //update previous code for next iteration
 		}
 
 		// write cipher text to output file location
@@ -106,6 +107,7 @@ module.exports = {
 		var cipherText = fs.readFileSync(fileLoc); // read cipher text from input file
 		var plainText = '';
 
+		var prevKeyCode = '0'; //initialize as 0
 		// perform encryption one character at a time
 		for (var i = 0, len = cipherText.length; i < len; i++) {
 			var nextCharByteCode = '';		
@@ -166,6 +168,7 @@ module.exports = {
 			}
 
 			plainText += String.fromCharCode(nextCharByteCode); // append the decrypted char to the cipher text
+			prevKeyCode = currentKeyCode; //update previous code for next iteration
 		}
 
 		// write cipher text to output file location
