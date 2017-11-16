@@ -198,21 +198,19 @@ var generateRandomKey = function(){
 /*
 Encryption for key byte 0.
 
-XOR with 1001
+XOR with 00011001
 */
 var encrypt0 = function(originalByte){
-  encryptedByte = originalByte; //perform encryption
-  return encryptedByte;
+  return originalByte ^ 25;
 };
 
 /*
 Decryption for key byte 0.
 
-XOR with 1001
+XOR with 00011001
 */
 var decrypt0 = function(encryptedByte){
-  decryptedByte = encryptedByte; //perform decryption
-  return decryptedByte;
+  return encryptedByte ^ 25;
 };
 
 /*
@@ -242,10 +240,10 @@ else -> reflect across 95.5
 */
 var encrypt2 = function(originalByte){
   var encryptedByte;
-  if (originalByte < 63.5) {
+  if (originalByte <= 63) {
 	encryptedByte = 63 - originalByte;
   } else {
-	originalByte = originalByte - 63;
+	originalByte = originalByte - 64;
 	encryptedByte = 127 - originalByte;
   }
   return encryptedByte;
@@ -260,10 +258,10 @@ else -> reflect across 95.5
 */
 var decrypt2 = function(encryptedByte){
   var decryptedByte;
-  if (encryptedByte < 63.5) {
+  if (encryptedByte <= 63) {
 	decryptedByte = 63 - encryptedByte;
   } else {
-	encryptedByte = encryptedByte - 63;
+	encryptedByte = encryptedByte - 64;
 	decryptedByte = 127 - encryptedByte;
   }
   return decryptedByte;
@@ -293,8 +291,7 @@ Encryption for key byte 4.
 XOR with binary from previous character in key
 */
 var encrypt4 = function(originalByte, prevKeyChar){
-  encryptedByte = originalByte; //perform encryption
-  return encryptedByte;
+  return originalByte ^ parseInt("0x" + prevKeyChar);
 };
 
 /*
@@ -303,8 +300,7 @@ Decryption for key byte 4.
 XOR with binary from previous character in key
 */
 var decrypt4 = function(encryptedByte, prevKeyChar){
-  decryptedByte = encryptedByte; //perform decryption
-  return decryptedByte;
+  return encryptedByte ^ parseInt("0x" + prevKeyChar);
 };
 
 /*
@@ -328,21 +324,19 @@ var decrypt5 = function(encryptedByte, prevKeyChar){
 /*
 Encryption for key byte 6.
 
-XOR with 0111
+XOR with 01110111
 */
 var encrypt6 = function(originalByte){
-  encryptedByte = originalByte; //perform encryption
-  return encryptedByte;
+  return originalByte ^ 119;
 };
 
 /*
 Decryption for key byte 6.
 
-XOR with 0111
+XOR with 01110111
 */
 var decrypt6 = function(encryptedByte){
-  decryptedByte = encryptedByte; //perform decryption
-  return decryptedByte;
+  return encryptedByte ^ 119;
 };
 
 /*
@@ -370,11 +364,7 @@ reflect previous character in key across 7.5 (0 -> 15, 1 -> 14), then XOR with t
 */
 var encrypt8 = function(originalByte, prevKeyChar){
   var reflectedByte = 15 - parseInt("0x" + prevKeyChar);
-  /*
-  TODO: XOR
-  */
-  encryptedByte = originalByte; //perform encryption
-  return encryptedByte;
+  return originalByte ^ reflectedByte;
 };
 
 /*
@@ -384,11 +374,7 @@ reflect previous character in key across 7.5 (0 -> 15, 1 -> 14), then XOR with t
 */
 var decrypt8 = function(encryptedByte, prevKeyChar){
   var reflectedByte = 15 - parseInt("0x" + prevKeyChar);
-  /*
-  TODO: XOR 
-  */
-  decryptedByte = encryptedByte; //perform decryption
-  return decryptedByte;
+  return encryptedByte ^ reflectedByte;
 };
 
 /*
@@ -412,21 +398,19 @@ var decrypt9 = function(encryptedByte){
 /*
 Encryption for key byte A.
 
-XOR with 0100
+XOR with 01010101
 */
 var encryptA = function(originalByte){
-  encryptedByte = originalByte; //perform encryption
-  return encryptedByte;
+  return originalByte ^ 85;
 };
 
 /*
 Decryption for key byte A.
 
-XOR with 0100
+XOR with 01010101
 */
 var decryptA = function(encryptedByte){
-  decryptedByte = encryptedByte; //perform decryption
-  return decryptedByte;
+  return encryptedByte ^ 85;
 };
 
 /*
@@ -470,21 +454,19 @@ var decryptC = function(encryptedByte, prevKeyChar){
 /*
 Encryption for key byte D.
 
-XOR with 1010
+XOR with 01111010
 */
 var encryptD = function(originalByte){
-  encryptedByte = originalByte; //perform encryption
-  return encryptedByte;
+  return originalByte ^ 122;
 };
 
 /*
 Decryption for key byte D.
 
-XOR with 1010
+XOR with 01111010
 */
 var decryptD = function(encryptedByte){
-  decryptedByte = encryptedByte; //perform decryption
-  return decryptedByte;
+  return encryptedByte ^ 122;
 };
 
 /*
@@ -502,28 +484,28 @@ else -> reflect across 119.5
 */
 var encryptE = function(originalByte){
   var encryptedByte;
-  if (originalByte < 15.5) {
+  if (originalByte <= 15) {
 	encryptedByte = 15 - originalByte;
-  } else if (originalByte < 31.5) {
-	originalByte = originalByte - 15;
+  } else if (originalByte <= 31) {
+	originalByte = originalByte - 16;
 	encryptedByte = 31 - originalByte;
-  } else if (originalByte < 47.5) {
-  	originalByte = originalByte - 31;
+  } else if (originalByte <= 47) {
+  	originalByte = originalByte - 32;
 	encryptedByte = 47 - originalByte;
-  } else if (originalByte < 63.5) {
-  	originalByte = originalByte - 47;
+  } else if (originalByte <= 63) {
+  	originalByte = originalByte - 48;
 	encryptedByte = 63 - originalByte;
-  } else if (originalByte < 79.5) {
-  	originalByte = originalByte - 63;
+  } else if (originalByte <= 79) {
+  	originalByte = originalByte - 64;
 	encryptedByte = 79 - originalByte;
-  } else if (originalByte < 95.5) {
-  	originalByte = originalByte - 79;
+  } else if (originalByte <= 95) {
+  	originalByte = originalByte - 80;
 	encryptedByte = 95 - originalByte;
-  } else if (originalByte < 111.5) {
-  	originalByte = originalByte - 95;
+  } else if (originalByte <= 111) {
+  	originalByte = originalByte - 96;
 	encryptedByte = 111 - originalByte;
   } else {
-  	originalByte = originalByte - 111;
+  	originalByte = originalByte - 112;
 	encryptedByte = 127 - originalByte;
   }
   return encryptedByte;
@@ -544,28 +526,28 @@ else -> reflect across 119.5
 */
 var decryptE = function(encryptedByte){
   var decryptedByte;
-  if (encryptedByte < 15.5) {
+  if (encryptedByte <= 15) {
 	decryptedByte = 15 - encryptedByte;
-  } else if (encryptedByte < 31.5) {
-	encryptedByte = encryptedByte - 15;
+  } else if (encryptedByte <= 31) {
+	encryptedByte = encryptedByte - 16;
 	decryptedByte = 31 - encryptedByte;
-  } else if (encryptedByte < 47.5) {
-  	encryptedByte = encryptedByte - 31;
+  } else if (encryptedByte <= 47) {
+  	encryptedByte = encryptedByte - 32;
 	decryptedByte = 47 - encryptedByte;
-  } else if (encryptedByte < 63.5) {
-  	encryptedByte = encryptedByte - 47;
+  } else if (encryptedByte <= 63) {
+  	encryptedByte = encryptedByte - 48;
 	decryptedByte = 63 - encryptedByte;
-  } else if (encryptedByte < 79.5) {
-  	encryptedByte = encryptedByte - 63;
+  } else if (encryptedByte <= 79) {
+  	encryptedByte = encryptedByte - 64;
 	decryptedByte = 79 - encryptedByte;
-  } else if (encryptedByte < 95.5) {
-  	encryptedByte = encryptedByte - 79;
+  } else if (encryptedByte <= 95) {
+  	encryptedByte = encryptedByte - 80;
 	decryptedByte = 95 - encryptedByte;
-  } else if (encryptedByte < 111.5) {
-  	encryptedByte = encryptedByte - 95;
+  } else if (encryptedByte <= 111) {
+  	encryptedByte = encryptedByte - 96;
 	decryptedByte = 111 - encryptedByte;
   } else {
-  	encryptedByte = encryptedByte - 111;
+  	encryptedByte = encryptedByte - 112;
 	decryptedByte = 127 - encryptedByte;
   }
   return decryptedByte;
