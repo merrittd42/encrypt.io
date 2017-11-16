@@ -21,6 +21,9 @@ document.addEventListener('DOMContentLoaded',function() {
 document.addEventListener('DOMContentLoaded',function() {
     selector.onchange=methodChangeEventHandler;
 },false);
+document.addEventListener('DOMContentLoaded',function() {
+    selector.onchange=methodChangeEventHandler;
+},false);
 
 
 
@@ -53,21 +56,45 @@ function handleFiles() {
 function modeChangeEventHandler(event){
   if(selector.value == "Caesar Cipher" && mode.value == "Encrypt"){
     uploadForm.action = "/upload/encrypt/caesar/";
+    shiftMag.style.visibility = "visible";
+    shiftMagHead.style.visibility = "visible";
+    keyPhrase.style.visibility = "hidden";
+    keyPhraseHead.style.visibility = "hidden";
   }
   else if (selector.value == "Caesar Cipher" && mode.value == "Decrypt") {
     uploadForm.action = "/upload/decrypt/caesar/";
+    shiftMag.style.visibility = "visible";
+    shiftMagHead.style.visibility = "visible";
+    keyPhrase.style.visibility = "hidden";
+    keyPhraseHead.style.visibility = "hidden";
   }
   if (selector.value == "One Time Pad" && mode.value == "Encrypt") {
     uploadForm.action = "/upload/encrypt/onetimepad/";
+    shiftMag.style.visibility = "hidden";
+    shiftMagHead.style.visibility = "hidden";
+    keyPhrase.style.visibility = "hidden";
+    keyPhraseHead.style.visibility = "hidden";
   }
   else if (selector.value == "One Time Pad" && mode.value == "Decrypt") {
     uploadForm.action = "/upload/decrypt/onetimepad/";
+    shiftMag.style.visibility = "hidden";
+    shiftMagHead.style.visibility = "hidden";
+    keyPhrase.style.visibility = "visible";
+    keyPhraseHead.style.visibility = "visible";
   }
   if (selector.value == "Custom Polyalphabetic" && mode.value == "Encrypt") {
     uploadForm.action = "/upload/encrypt/custom/";
+    shiftMag.style.visibility = "hidden";
+    shiftMagHead.style.visibility = "hidden";
+    keyPhrase.style.visibility = "hidden";
+    keyPhraseHead.style.visibility = "hidden";
   }
   else if (selector.value == "Custom Polyalphabetic" && mode.value == "Decrypt") {
     uploadForm.action = "/upload/decrypt/custom/";
+    shiftMag.style.visibility = "hidden";
+    shiftMagHead.style.visibility = "hidden";
+    keyPhrase.style.visibility = "visible";
+    keyPhraseHead.style.visibility = "visible";
   }
 
   if(mode.value == "Decrypt"){
