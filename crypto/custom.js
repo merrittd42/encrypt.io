@@ -260,7 +260,7 @@ else -> reflect across 95.5
 */
 var decrypt2 = function(encryptedByte){
   var decryptedByte;
-  if (originalByte < 63.5) {
+  if (encryptedByte < 63.5) {
 	decryptedByte = 63 - encryptedByte;
   } else {
 	encryptedByte = encryptedByte - 63;
@@ -397,8 +397,7 @@ Encryption for key byte 9.
 reflect across 63.5 (i.e. 0 -> 127, 127 -> 0, 1 -> 126, 125 -> 3, etc.)...this splits the set of numbers perfectly in half and reflects across halfway point
 */
 var encrypt9 = function(originalByte){
-  encryptedByte = 127 - originalByte; //perform encryption
-  return encryptedByte;
+  return 127 - originalByte;
 };
 
 /*
@@ -407,8 +406,7 @@ Decryption for key byte 9.
 reflect across 63.5 (i.e. 0 -> 127, 127 -> 0, 1 -> 126, 125 -> 3, etc.)...this splits the set of numbers perfectly in half and reflects across halfway point
 */
 var decrypt9 = function(encryptedByte){
-  decryptedByte = 127 - encryptedByte; //perform decryption
-  return decryptedByte;
+  return 127 - encryptedByte; //perform decryption
 };
 
 /*
@@ -438,13 +436,7 @@ caesar shift forwards by 12, then reflect across 63.5 (like #9)
 */
 var encryptB = function(originalByte){
   var shiftedByte = (originalByte + 12) % 128;
-  
-  /*
-  TODO: reflection on shiftedByte
-  */
-  var reflectedByte = 127 - shiftedByte;
-  
-  return reflectedByte;
+  return 127 - shiftedByte;
 };
 
 /*
@@ -453,11 +445,7 @@ Decryption for key byte B.
 reflect across 63.5 (like #9), then caesar shift backwards by 12
 */
 var decryptB = function(encryptedByte){
-  /*
-  TODO: reflection on encrypted byte
-  */
   var reflectedByte = 127 - encryptedByte;
-  
   return (reflectedByte - 12 + 128) % 128;
 };
 
