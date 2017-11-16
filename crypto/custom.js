@@ -7,16 +7,15 @@ module.exports = {
       shiftAmount - Number representing the amount the original text was shifted
 
     Returns:
-      Needs to return the location on the server of the encrypted file as well as
-	  the key to be used for decryption
+      Needs to return a the location of the encrypted file and a string with
+	  the key for decryption
     */
     encryptCustom: function(fileLoc){
 		var outputFileLoc = fileLoc + '.enc';
 		var fs = require('fs');	  
-
-		var plainText = fs.readFileSync(fileLoc); // read plain text from input file
-		var cipherText = '';
 		
+		var plainText = fs.readFileSync(fileLoc); // read plain text from input file
+		var cipherText = '';		
 		var key = generateRandomKey(); // generate a random 64-byte key
 		
 		var prevKeyCode = '0'; //initialize as 0
@@ -65,7 +64,7 @@ module.exports = {
 					nextCharByteCode = encryptB(byteCode);
 					break;
 				case 'C':
-					nextCharByteCode = encryptC(byteCod, prevKeyCode);
+					nextCharByteCode = encryptC(byteCode, prevKeyCode);
 					break;
 				case 'D':
 					nextCharByteCode = encryptD(byteCode);
@@ -89,7 +88,7 @@ module.exports = {
 			}
 		});
 
-		return [outputFileLoc, key]; // return location of encrypted file
+		return [outputFileLoc, key]; // return location of encrypted folder
     },
 
     /*

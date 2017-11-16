@@ -4,7 +4,7 @@ var multer  = require('multer')
 var upload = multer({ dest: './uploads/' })
 var caesar = require('../crypto/caesar.js')
 var pad = require('../crypto/onetimepad.js')
-var aes = require('../crypto/aes.js')
+var custom = require('../crypto/custom.js')
 
 var app = express()
 /* GET home page. */
@@ -23,21 +23,69 @@ router.post('/upload/encrypt/caesar', upload.single('encryptFile'), function (re
 router.post('/upload/encrypt/onetimepad', upload.single('encryptFile'), function (req, res){
   var file = req.file;
   var fileLoc = file.path;
-  var zipLoc = pad.encryptPad(fileLoc);
-  res.download(zipLoc);
+  
+  var fs = require('fs');	  
+  var archiver = require('archiver');
+  var path = require('path');
+  var zipLoc = path.dirname(fileLoc) + '/padEncryption.zip';
+  
+  returnArray = pad.encryptPad(fileLoc);
+  var encFileLoc = returnArray[0];
+  var padKey = returnArray[1];  
+  
+  // create a file to stream archive data to.
+  var output = fs.createWriteStream(zipLoc);
+  output.on('close', function () {
+    res.download(zipLoc);
+  });
+  
+  var archive = archiver('zip', {
+    zlib: { level: 9 } // Sets the compression level.
+  });
+  
+  archive.append(fs.createReadStream(encFileLoc), { name: 'encryptedFile.txt' });
+
+  // append a file from string
+  archive.append(padKey, { name: 'key.txt' });
+
+  // pipe archive data to the file
+  archive.pipe(output);
+
+  archive.finalize();
 })
 
-router.post('/upload/encrypt/weirdsub', upload.single('encryptFile'), function (req, res){
+router.post('/upload/encrypt/custom', upload.single('encryptFile'), function (req, res){
   var returnArray = [];
   var file = req.file;
   var fileLoc = file.path;
-  returnArray = aes.encryptAES(fileLoc);
-  var encryptedFilePath = returnArray[0];
-  var key = returnArray[1];
-  res.download(encryptedFilePath);
-  res.json({
-      "key" : key
+  
+  var fs = require('fs');	  
+  var archiver = require('archiver');
+  var path = require('path');
+  var zipLoc = path.dirname(fileLoc) + '/customEncryption.zip';
+  
+  returnArray = custom.encryptCustom(fileLoc);
+  var encFileLoc = returnArray[0];
+  var encKey = returnArray[1];  
+  
+  // create a file to stream archive data to.
+  var output = fs.createWriteStream(zipLoc);
+  output.on('close', function () {
+    res.download(zipLoc);
   });
+  var archive = archiver('zip', {
+    zlib: { level: 9 } // Sets the compression level.
+  });
+  
+  archive.append(fs.createReadStream(encFileLoc), { name: 'encryptedFile.txt' });
+
+  // append a file from string
+  archive.append(encKey, { name: 'key.txt' });
+
+  // pipe archive data to the file
+  archive.pipe(output);
+
+  archive.finalize();
 })
 
 router.post('/upload/decrypt/caesar', upload.single('encryptFile'), function (req, res){
@@ -55,10 +103,10 @@ router.post('/upload/decrypt/onetimepad', upload.single('encryptFile'), function
   res.download(encryptedFilePath);
 })
 
-router.post('/upload/decrypt/weirdsub', upload.single('encryptFile'), function (req, res){
+router.post('/upload/decrypt/custom', upload.single('encryptFile'), function (req, res){
   var file = req.file;
   var fileLoc = file.path;
-  var encryptedFilePath = aes.decryptAES(fileLoc, key);
+  var encryptedFilePath = custom.decryptCustom(fileLoc, key);
   res.download(encryptedFilePath);
 })
 

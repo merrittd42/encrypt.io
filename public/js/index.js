@@ -63,11 +63,11 @@ function modeChangeEventHandler(event){
   else if (selector.value == "One Time Pad" && mode.value == "Decrypt") {
     uploadForm.action = "/upload/decrypt/onetimepad/";
   }
-  if (selector.value == "AES" && mode.value == "Encrypt") {
-    uploadForm.action = "/upload/encrypt/weirdsub/";
+  if (selector.value == "Custom Polyalphabetic" && mode.value == "Encrypt") {
+    uploadForm.action = "/upload/encrypt/custom/";
   }
-  else if (selector.value == "AES" && mode.value == "Decrypt") {
-    uploadForm.action = "/upload/decrypt/weirdsub/";
+  else if (selector.value == "Custom Polyalphabetic" && mode.value == "Decrypt") {
+    uploadForm.action = "/upload/decrypt/custom/";
   }
 
   if(mode.value == "Decrypt"){
@@ -98,7 +98,7 @@ function methodChangeEventHandler(event) {
     keyPhraseHead.style.visibility = "hidden";
 
   }
-  else if((selector.value == "One Time Pad" || selector.value == "Wacky Substitution") && encryptButton.value == "Decrypt"){
+  else if((selector.value == "One Time Pad" || selector.value == "Custom Polyalphabetic") && encryptButton.value == "Decrypt"){
         keyPhrase.style.visibility = "visible";
         keyPhraseHead.style.visibility = "visible";
         shiftMag.style.visibility = "hidden";
@@ -123,6 +123,10 @@ function clicked() {
         post(file.value, uploadForm.action, {data: shiftInput});
     }
     else if((selector.value == "One Time Pad") && file.value != ""){
+      keyPhraseHidden.value = keyInput;
+      post(file.value,uploadForm.action);
+    }
+	else if((selector.value == "Custom Polyalphabetic") && file.value != ""){
       keyPhraseHidden.value = keyInput;
       post(file.value,uploadForm.action);
     }
