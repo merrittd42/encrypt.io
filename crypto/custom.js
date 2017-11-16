@@ -32,7 +32,7 @@ module.exports = {
 					nextCharByteCode = encrypt0(byteCode);
 					break;
 				case '1':
-					nextCharByteCode = encrypt1(byteCode);
+					nextCharByteCode = encrypt1(byteCode, prevKeyCode);
 					break;
 				case '2':
 					nextCharByteCode = encrypt2(byteCode);
@@ -41,19 +41,19 @@ module.exports = {
 					nextCharByteCode = encrypt3(byteCode);
 					break;
 				case '4':
-					nextCharByteCode = encrypt4(byteCode);
+					nextCharByteCode = encrypt4(byteCode, prevKeyCode);
 					break;
 				case '5':
-					nextCharByteCode = encrypt5(byteCode);
+					nextCharByteCode = encrypt5(byteCode, prevKeyCode);
 					break;
 				case '6':
 					nextCharByteCode = encrypt6(byteCode);
 					break;
 				case '7':
-					nextCharByteCode = encrypt7(byteCode);
+					nextCharByteCode = encrypt7(byteCode, prevKeyCode);
 					break;
 				case '8':
-					nextCharByteCode = encrypt8(byteCode);
+					nextCharByteCode = encrypt8(byteCode, prevKeyCode);
 					break;
 				case '9':
 					nextCharByteCode = encrypt9(byteCode);
@@ -65,7 +65,7 @@ module.exports = {
 					nextCharByteCode = encryptB(byteCode);
 					break;
 				case 'C':
-					nextCharByteCode = encryptC(byteCode);
+					nextCharByteCode = encryptC(byteCod, prevKeyCode);
 					break;
 				case 'D':
 					nextCharByteCode = encryptD(byteCode);
@@ -82,7 +82,7 @@ module.exports = {
 		}
 
 		// write cipher text to output file location
-		fs.writeFile(outputFileLoc, cipherText,  function(err) {
+		fs.writeFileSync(outputFileLoc, cipherText,  function(err) {
 			if (err) {
 			  return console.error(err);
 			}
@@ -119,7 +119,7 @@ module.exports = {
 					nextCharByteCode = decrypt0(byteCode);
 					break;
 				case '1':
-					nextCharByteCode = decrypt1(byteCode);
+					nextCharByteCode = decrypt1(byteCode, prevKeyCode);
 					break;
 				case '2':
 					nextCharByteCode = decrypt2(byteCode);
@@ -128,19 +128,19 @@ module.exports = {
 					nextCharByteCode = decrypt3(byteCode);
 					break;
 				case '4':
-					nextCharByteCode = decrypt4(byteCode);
+					nextCharByteCode = decrypt4(byteCode, prevKeyCode);
 					break;
 				case '5':
-					nextCharByteCode = decrypt5(byteCode);
+					nextCharByteCode = decrypt5(byteCode, prevKeyCode);
 					break;
 				case '6':
 					nextCharByteCode = decrypt6(byteCode);
 					break;
 				case '7':
-					nextCharByteCode = decrypt7(byteCode);
+					nextCharByteCode = decrypt7(byteCode, prevKeyCode);
 					break;
 				case '8':
-					nextCharByteCode = decrypt8(byteCode);
+					nextCharByteCode = decrypt8(byteCode, prevKeyCode);
 					break;
 				case '9':
 					nextCharByteCode = decrypt9(byteCode);
@@ -152,7 +152,7 @@ module.exports = {
 					nextCharByteCode = decryptB(byteCode);
 					break;
 				case 'C':
-					nextCharByteCode = decryptC(byteCode);
+					nextCharByteCode = decryptC(byteCode, prevKeyCode);
 					break;
 				case 'D':
 					nextCharByteCode = decryptD(byteCode);
@@ -169,7 +169,7 @@ module.exports = {
 		}
 
 		// write cipher text to output file location
-		fs.writeFile(outputFileLoc, plainText,  function(err) {
+		fs.writeFileSync(outputFileLoc, plainText,  function(err) {
 			if (err) {
 			  return console.error(err);
 			}
@@ -195,6 +195,8 @@ var generateRandomKey = function(){
 
 /*
 Encryption for key byte 0.
+
+XOR with 1001
 */
 var encrypt0 = function(originalByte){
   encryptedByte = originalByte; //perform encryption
@@ -203,6 +205,8 @@ var encrypt0 = function(originalByte){
 
 /*
 Decryption for key byte 0.
+
+XOR with 1001
 */
 var decrypt0 = function(encryptedByte){
   decryptedByte = encryptedByte; //perform decryption
@@ -211,22 +215,30 @@ var decrypt0 = function(encryptedByte){
 
 /*
 Encryption for key byte 1.
+
+Caesar shift forwards by [0,15]*3 based on previous character in key
 */
-var encrypt1 = function(originalByte){
+var encrypt1 = function(originalByte, prevKeyChar){
   encryptedByte = originalByte; //perform encryption
   return encryptedByte;
 };
 
 /*
 Decryption for key byte 1.
+
+Caesar shift back by [0,15]*3 based on previous character in key
 */
-var decrypt1 = function(encryptedByte){
+var decrypt1 = function(encryptedByte, prevKeyChar){
   decryptedByte = encryptedByte; //perform decryption
   return decryptedByte;
 };
 
 /*
 Encryption for key byte 2.
+
+if (byte < 63.5) -> reflect across 31.5; 
+else -> reflect across 95.5 
+(see #9 for shift explanation, this time, we split the set of numbers into four sets and reflect each set across its halfway point)
 */
 var encrypt2 = function(originalByte){
   encryptedByte = originalByte; //perform encryption
@@ -235,6 +247,10 @@ var encrypt2 = function(originalByte){
 
 /*
 Decryption for key byte 2.
+
+if (byte < 63.5) -> reflect across 31.5; 
+else -> reflect across 95.5 
+(see #9 for shift explanation, this time, we split the set of numbers into four sets and reflect each set across its halfway point)
 */
 var decrypt2 = function(encryptedByte){
   decryptedByte = encryptedByte; //perform decryption
@@ -243,6 +259,8 @@ var decrypt2 = function(encryptedByte){
 
 /*
 Encryption for key byte 3.
+
+caesar shift forwards by 79
 */
 var encrypt3 = function(originalByte){
   encryptedByte = originalByte; //perform encryption
@@ -251,6 +269,8 @@ var encrypt3 = function(originalByte){
 
 /*
 Decryption for key byte 3.
+
+caesar shift back by 79
 */
 var decrypt3 = function(encryptedByte){
   decryptedByte = encryptedByte; //perform decryption
@@ -259,38 +279,48 @@ var decrypt3 = function(encryptedByte){
 
 /*
 Encryption for key byte 4.
+
+XOR with binary from previous character in key
 */
-var encrypt4 = function(originalByte){
+var encrypt4 = function(originalByte, prevKeyChar){
   encryptedByte = originalByte; //perform encryption
   return encryptedByte;
 };
 
 /*
 Decryption for key byte 4.
+
+XOR with binary from previous character in key
 */
-var decrypt4 = function(encryptedByte){
+var decrypt4 = function(encryptedByte, prevKeyChar){
   decryptedByte = encryptedByte; //perform decryption
   return decryptedByte;
 };
 
 /*
 Encryption for key byte 5.
+
+caesar shift forwards by [0,15] based on previous character in key, then XOR with previous character in key
 */
-var encrypt5 = function(originalByte){
+var encrypt5 = function(originalByte, prevKeyChar){
   encryptedByte = originalByte; //perform encryption
   return encryptedByte;
 };
 
 /*
 Decryption for key byte 5.
+
+XOR with previous character in key, then caesar shift back by [0,15] based on previous character in key
 */
-var decrypt5 = function(encryptedByte){
+var decrypt5 = function(encryptedByte, prevKeyChar){
   decryptedByte = encryptedByte; //perform decryption
   return decryptedByte;
 };
 
 /*
 Encryption for key byte 6.
+
+XOR with 0111
 */
 var encrypt6 = function(originalByte){
   encryptedByte = originalByte; //perform encryption
@@ -299,6 +329,8 @@ var encrypt6 = function(originalByte){
 
 /*
 Decryption for key byte 6.
+
+XOR with 0111
 */
 var decrypt6 = function(encryptedByte){
   decryptedByte = encryptedByte; //perform decryption
@@ -307,38 +339,48 @@ var decrypt6 = function(encryptedByte){
 
 /*
 Encryption for key byte 7.
+
+caesar shift backwards by [0,15] based on previous character in key
 */
-var encrypt7 = function(originalByte){
+var encrypt7 = function(originalByte, prevKeyChar){
   encryptedByte = originalByte; //perform encryption
   return encryptedByte;
 };
 
 /*
 Decryption for key byte 7.
+
+caesar shift forwards by [0,15] based on previous character in key
 */
-var decrypt7 = function(encryptedByte){
+var decrypt7 = function(encryptedByte, prevKeyChar){
   decryptedByte = encryptedByte; //perform decryption
   return decryptedByte;
 };
 
 /*
 Encryption for key byte 8.
+
+reflect previous character in key across 7.5 (0 -> 15, 1 -> 14), then XOR with the result
 */
-var encrypt8 = function(originalByte){
+var encrypt8 = function(originalByte, prevKeyChar){
   encryptedByte = originalByte; //perform encryption
   return encryptedByte;
 };
 
 /*
 Decryption for key byte 8.
+
+reflect previous character in key across 7.5 (0 -> 15, 1 -> 14), then XOR with the result
 */
-var decrypt8 = function(encryptedByte){
+var decrypt8 = function(encryptedByte, prevKeyChar){
   decryptedByte = encryptedByte; //perform decryption
   return decryptedByte;
 };
 
 /*
 Encryption for key byte 9.
+
+reflect across 63.5 (i.e. 0 -> 127, 127 -> 0, 1 -> 126, 125 -> 3, etc.)...this splits the set of numbers perfectly in half and reflects across halfway point
 */
 var encrypt9 = function(originalByte){
   encryptedByte = originalByte; //perform encryption
@@ -347,6 +389,8 @@ var encrypt9 = function(originalByte){
 
 /*
 Decryption for key byte 9.
+
+reflect across 63.5 (i.e. 0 -> 127, 127 -> 0, 1 -> 126, 125 -> 3, etc.)...this splits the set of numbers perfectly in half and reflects across halfway point
 */
 var decrypt9 = function(encryptedByte){
   decryptedByte = encryptedByte; //perform decryption
@@ -355,6 +399,8 @@ var decrypt9 = function(encryptedByte){
 
 /*
 Encryption for key byte A.
+
+XOR with 0100
 */
 var encryptA = function(originalByte){
   encryptedByte = originalByte; //perform encryption
@@ -363,6 +409,8 @@ var encryptA = function(originalByte){
 
 /*
 Decryption for key byte A.
+
+XOR with 0100
 */
 var decryptA = function(encryptedByte){
   decryptedByte = encryptedByte; //perform decryption
@@ -371,6 +419,8 @@ var decryptA = function(encryptedByte){
 
 /*
 Encryption for key byte B.
+
+caesar shift forwards by 12, then reflect across 63.5 (like #9)
 */
 var encryptB = function(originalByte){
   encryptedByte = originalByte; //perform encryption
@@ -379,6 +429,8 @@ var encryptB = function(originalByte){
 
 /*
 Decryption for key byte B.
+
+reflect across 63.5 (like #9), then caesar shift backwards by 12
 */
 var decryptB = function(encryptedByte){
   decryptedByte = encryptedByte; //perform decryption
@@ -387,22 +439,28 @@ var decryptB = function(encryptedByte){
 
 /*
 Encryption for key byte C.
+
+caesar shift forwards by [0,15]*2 based on previous character in key
 */
-var encryptC = function(originalByte){
+var encryptC = function(originalByte, prevKeyChar){
   encryptedByte = originalByte; //perform encryption
   return encryptedByte;
 };
 
 /*
 Decryption for key byte C.
+
+caesar shift backwards by [0,15]*2 based on previous character in key
 */
-var decryptC = function(encryptedByte){
+var decryptC = function(encryptedByte, prevKeyChar){
   decryptedByte = encryptedByte; //perform decryption
   return decryptedByte;
 };
 
 /*
 Encryption for key byte D.
+
+XOR with 1010
 */
 var encryptD = function(originalByte){
   encryptedByte = originalByte; //perform encryption
@@ -411,6 +469,8 @@ var encryptD = function(originalByte){
 
 /*
 Decryption for key byte D.
+
+XOR with 1010
 */
 var decryptD = function(encryptedByte){
   decryptedByte = encryptedByte; //perform decryption
@@ -419,6 +479,16 @@ var decryptD = function(encryptedByte){
 
 /*
 Encryption for key byte E.
+
+if (byte < 15.5) -> reflect across 7.5, 
+elseif(byte < 31.5) -> reflect across 23.5, 
+elseif(byte < 47.5) -> reflect across 39.5, 
+elseif(byte < 63.5) -> reflect across 55.5, 
+elseif(byte < 79.5) -> reflect across 71.5, 
+elseif(byte < 95.5) -> reflect across 87.5, 
+elseif(byte < 111.5) -> reflect across 103.5, 
+else -> reflect across 119.5 
+(see #9 for shift explanation, this time, we split the set of numbers into eight sets and reflect each set across its halfway point)
 */
 var encryptE = function(originalByte){
   encryptedByte = originalByte; //perform encryption
@@ -427,6 +497,16 @@ var encryptE = function(originalByte){
 
 /*
 Decryption for key byte E.
+
+if (byte < 15.5) -> reflect across 7.5, 
+elseif(byte < 31.5) -> reflect across 23.5, 
+elseif(byte < 47.5) -> reflect across 39.5, 
+elseif(byte < 63.5) -> reflect across 55.5, 
+elseif(byte < 79.5) -> reflect across 71.5, 
+elseif(byte < 95.5) -> reflect across 87.5, 
+elseif(byte < 111.5) -> reflect across 103.5, 
+else -> reflect across 119.5 
+(see #9 for shift explanation, this time, we split the set of numbers into eight sets and reflect each set across its halfway point)
 */
 var decryptE = function(encryptedByte){
   decryptedByte = encryptedByte; //perform decryption
@@ -435,6 +515,8 @@ var decryptE = function(encryptedByte){
 
 /*
 Encryption for key byte F.
+
+caesar shift backwards by 12
 */
 var encryptF = function(originalByte){
   encryptedByte = originalByte; //perform encryption
@@ -443,6 +525,8 @@ var encryptF = function(originalByte){
 
 /*
 Decryption for key byte F.
+
+caesar shift forwards by 12
 */
 var decryptF = function(encryptedByte){
   decryptedByte = encryptedByte; //perform decryption
