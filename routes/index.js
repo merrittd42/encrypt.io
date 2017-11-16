@@ -89,25 +89,27 @@ router.post('/upload/encrypt/custom', upload.single('encryptFile'), function (re
 })
 
 router.post('/upload/decrypt/caesar', upload.single('encryptFile'), function (req, res){
-  var shiftAmount = req.body.key;
+  var shiftAmount = parseInt(req.body.shift);
   var file = req.file;
   var fileLoc = file.path;
-  var encryptedFilePath = caesar.decryptCaesar(fileLoc, key);
-  res.download(encryptedFilePath);
+  var decryptedFilePath = caesar.decryptCaesar(fileLoc, shiftAmount);
+  res.download(decryptedFilePath, "yourDecryptedFile.txt");
 })
 
 router.post('/upload/decrypt/onetimepad', upload.single('encryptFile'), function (req, res){
+  var key = req.body.key;
   var file = req.file;
   var fileLoc = file.path;
   var encryptedFilePath = pad.decryptPad(fileLoc, key);
-  res.download(encryptedFilePath);
+  res.download(encryptedFilePath, "yourDecryptedFile.txt");
 })
 
 router.post('/upload/decrypt/custom', upload.single('encryptFile'), function (req, res){
+  var key = req.body.key;
   var file = req.file;
   var fileLoc = file.path;
   var encryptedFilePath = custom.decryptCustom(fileLoc, key);
-  res.download(encryptedFilePath);
+  res.download(encryptedFilePath, "yourDecryptedFile.txt");
 })
 
 module.exports = router;

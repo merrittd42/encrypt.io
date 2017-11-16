@@ -124,11 +124,11 @@ function clicked() {
     }
     else if((selector.value == "One Time Pad") && file.value != ""){
       keyPhraseHidden.value = keyInput;
-      post(file.value,uploadForm.action);
+      post(file.value,uploadForm.action, {data: keyInput});
     }
 	else if((selector.value == "Custom Polyalphabetic") && file.value != ""){
       keyPhraseHidden.value = keyInput;
-      post(file.value,uploadForm.action);
+      post(file.value,uploadForm.action, {data: keyInput});
     }
     else{
          return confirm("Error: invalid file or data input.");
