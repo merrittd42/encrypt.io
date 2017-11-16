@@ -241,7 +241,13 @@ else -> reflect across 95.5
 (see #9 for shift explanation, this time, we split the set of numbers into four sets and reflect each set across its halfway point)
 */
 var encrypt2 = function(originalByte){
-  encryptedByte = originalByte; //perform encryption
+  var encryptedByte;
+  if (originalByte < 63.5) {
+	encryptedByte = 63 - originalByte;
+  } else {
+	originalByte = originalByte - 63;
+	encryptedByte = 127 - originalByte;
+  }
   return encryptedByte;
 };
 
@@ -253,7 +259,13 @@ else -> reflect across 95.5
 (see #9 for shift explanation, this time, we split the set of numbers into four sets and reflect each set across its halfway point)
 */
 var decrypt2 = function(encryptedByte){
-  decryptedByte = encryptedByte; //perform decryption
+  var decryptedByte;
+  if (originalByte < 63.5) {
+	decryptedByte = 63 - encryptedByte;
+  } else {
+	encryptedByte = encryptedByte - 63;
+	decryptedByte = 127 - encryptedByte;
+  }
   return decryptedByte;
 };
 
@@ -357,6 +369,10 @@ Encryption for key byte 8.
 reflect previous character in key across 7.5 (0 -> 15, 1 -> 14), then XOR with the result
 */
 var encrypt8 = function(originalByte, prevKeyChar){
+  var reflectedByte = 15 - parseInt("0x" + prevKeyChar);
+  /*
+  TODO: XOR
+  */
   encryptedByte = originalByte; //perform encryption
   return encryptedByte;
 };
@@ -367,6 +383,10 @@ Decryption for key byte 8.
 reflect previous character in key across 7.5 (0 -> 15, 1 -> 14), then XOR with the result
 */
 var decrypt8 = function(encryptedByte, prevKeyChar){
+  var reflectedByte = 15 - parseInt("0x" + prevKeyChar);
+  /*
+  TODO: XOR 
+  */
   decryptedByte = encryptedByte; //perform decryption
   return decryptedByte;
 };
@@ -377,7 +397,7 @@ Encryption for key byte 9.
 reflect across 63.5 (i.e. 0 -> 127, 127 -> 0, 1 -> 126, 125 -> 3, etc.)...this splits the set of numbers perfectly in half and reflects across halfway point
 */
 var encrypt9 = function(originalByte){
-  encryptedByte = originalByte; //perform encryption
+  encryptedByte = 127 - originalByte; //perform encryption
   return encryptedByte;
 };
 
@@ -387,7 +407,7 @@ Decryption for key byte 9.
 reflect across 63.5 (i.e. 0 -> 127, 127 -> 0, 1 -> 126, 125 -> 3, etc.)...this splits the set of numbers perfectly in half and reflects across halfway point
 */
 var decrypt9 = function(encryptedByte){
-  decryptedByte = encryptedByte; //perform decryption
+  decryptedByte = 127 - encryptedByte; //perform decryption
   return decryptedByte;
 };
 
@@ -422,7 +442,7 @@ var encryptB = function(originalByte){
   /*
   TODO: reflection on shiftedByte
   */
-  var reflectedByte = shiftedByte;
+  var reflectedByte = 127 - shiftedByte;
   
   return reflectedByte;
 };
@@ -436,7 +456,7 @@ var decryptB = function(encryptedByte){
   /*
   TODO: reflection on encrypted byte
   */
-  var reflectedByte = encryptedByte;
+  var reflectedByte = 127 - encryptedByte;
   
   return (reflectedByte - 12 + 128) % 128;
 };
@@ -493,7 +513,31 @@ else -> reflect across 119.5
 (see #9 for shift explanation, this time, we split the set of numbers into eight sets and reflect each set across its halfway point)
 */
 var encryptE = function(originalByte){
-  encryptedByte = originalByte; //perform encryption
+  var encryptedByte;
+  if (originalByte < 15.5) {
+	encryptedByte = 15 - originalByte;
+  } else if (originalByte < 31.5) {
+	originalByte = originalByte - 15;
+	encryptedByte = 31 - originalByte;
+  } else if (originalByte < 47.5) {
+  	originalByte = originalByte - 31;
+	encryptedByte = 47 - originalByte;
+  } else if (originalByte < 63.5) {
+  	originalByte = originalByte - 47;
+	encryptedByte = 63 - originalByte;
+  } else if (originalByte < 79.5) {
+  	originalByte = originalByte - 63;
+	encryptedByte = 79 - originalByte;
+  } else if (originalByte < 95.5) {
+  	originalByte = originalByte - 79;
+	encryptedByte = 95 - originalByte;
+  } else if (originalByte < 111.5) {
+  	originalByte = originalByte - 95;
+	encryptedByte = 111 - originalByte;
+  } else {
+  	originalByte = originalByte - 111;
+	encryptedByte = 127 - originalByte;
+  }
   return encryptedByte;
 };
 
@@ -511,7 +555,31 @@ else -> reflect across 119.5
 (see #9 for shift explanation, this time, we split the set of numbers into eight sets and reflect each set across its halfway point)
 */
 var decryptE = function(encryptedByte){
-  decryptedByte = encryptedByte; //perform decryption
+  var decryptedByte;
+  if (encryptedByte < 15.5) {
+	decryptedByte = 15 - encryptedByte;
+  } else if (encryptedByte < 31.5) {
+	encryptedByte = encryptedByte - 15;
+	decryptedByte = 31 - encryptedByte;
+  } else if (encryptedByte < 47.5) {
+  	encryptedByte = encryptedByte - 31;
+	decryptedByte = 47 - encryptedByte;
+  } else if (encryptedByte < 63.5) {
+  	encryptedByte = encryptedByte - 47;
+	decryptedByte = 63 - encryptedByte;
+  } else if (encryptedByte < 79.5) {
+  	encryptedByte = encryptedByte - 63;
+	decryptedByte = 79 - encryptedByte;
+  } else if (encryptedByte < 95.5) {
+  	encryptedByte = encryptedByte - 79;
+	decryptedByte = 95 - encryptedByte;
+  } else if (encryptedByte < 111.5) {
+  	encryptedByte = encryptedByte - 95;
+	decryptedByte = 111 - encryptedByte;
+  } else {
+  	encryptedByte = encryptedByte - 111;
+	decryptedByte = 127 - encryptedByte;
+  }
   return decryptedByte;
 };
 
