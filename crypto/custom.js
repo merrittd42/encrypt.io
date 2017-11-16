@@ -10,7 +10,7 @@ module.exports = {
       Needs to return the location on the server of the encrypted file as well as
 	  the key to be used for decryption
     */
-    encryptCaesar: function(fileLoc){
+    encryptCustom: function(fileLoc){
 		var outputFileLoc = fileLoc + '.enc';
 		var fs = require('fs');	  
 
@@ -18,66 +18,67 @@ module.exports = {
 		var cipherText = '';
 		
 		var key = generateRandomKey(); // generate a random 64-byte key
-
+		
 		// perform encryption one character at a time
 		for (var i = 0, len = plainText.length; i < len; i++) {
-			var nextChar = '';		
+			var nextCharByteCode = '';
 			var byteCode = plainText[i]; // get byte code for this character 
 			
 			var currentKeyCode = key[i % key.length]; // get current index of key to look at
-			
+			var prevKeyCode = key[(i-1) % key.length]; //get previous index of key for specific encryptions
+
 			switch(currentKeyCode){ // encrypt next byte based on current key code
 				case '0':
-					nextChar = encrypt0(byteCode);
+					nextCharByteCode = encrypt0(byteCode);
 					break;
 				case '1':
-					nextChar = encrypt1(byteCode);
+					nextCharByteCode = encrypt1(byteCode);
 					break;
 				case '2':
-					nextChar = encrypt2(byteCode);
+					nextCharByteCode = encrypt2(byteCode);
 					break;
 				case '3':
-					nextChar = encrypt3(byteCode);
+					nextCharByteCode = encrypt3(byteCode);
 					break;
 				case '4':
-					nextChar = encrypt4(byteCode);
+					nextCharByteCode = encrypt4(byteCode);
 					break;
 				case '5':
-					nextChar = encrypt5(byteCode);
+					nextCharByteCode = encrypt5(byteCode);
 					break;
 				case '6':
-					nextChar = encrypt6(byteCode);
+					nextCharByteCode = encrypt6(byteCode);
 					break;
 				case '7':
-					nextChar = encrypt7(byteCode);
+					nextCharByteCode = encrypt7(byteCode);
 					break;
 				case '8':
-					nextChar = encrypt8(byteCode);
+					nextCharByteCode = encrypt8(byteCode);
 					break;
 				case '9':
-					nextChar = encrypt9(byteCode);
+					nextCharByteCode = encrypt9(byteCode);
 					break;
 				case 'A':
-					nextChar = encryptA(byteCode);
+					nextCharByteCode = encryptA(byteCode);
 					break;
 				case 'B':
-					nextChar = encryptB(byteCode);
+					nextCharByteCode = encryptB(byteCode);
 					break;
 				case 'C':
-					nextChar = encryptC(byteCode);
+					nextCharByteCode = encryptC(byteCode);
 					break;
 				case 'D':
-					nextChar = encryptD(byteCode);
+					nextCharByteCode = encryptD(byteCode);
 					break;
 				case 'E':
-					nextChar = encryptE(byteCode);
+					nextCharByteCode = encryptE(byteCode);
 					break;
 				case 'F':
-					nextChar = encryptF(byteCode);
+					nextCharByteCode = encryptF(byteCode);
 					break;		
 			}
 
-			cipherText += nextChar; // append the encrypted char to the cipher text
+			cipherText += String.fromCharCode(nextCharByteCode); // append the encrypted char to the cipher text
 		}
 
 		// write cipher text to output file location
@@ -98,7 +99,7 @@ module.exports = {
     Returns:
       fileLoc - Location on the server of the decrypted file.
     */
-    decryptCaesar: function(fileLoc, key){
+    decryptCustom: function(fileLoc, key){
 		var outputFileLoc = fileLoc + '.dec';
 		var fs = require('fs');	  
 
@@ -107,63 +108,64 @@ module.exports = {
 
 		// perform encryption one character at a time
 		for (var i = 0, len = cipherText.length; i < len; i++) {
-			var nextChar = '';		
+			var nextCharByteCode = '';		
 			var byteCode = cipherText[i]; // get byte code for this character 
 			
 			var currentKeyCode = key[i % key.length]; // get current index of key to look at
-			
+			var prevKeyCode = key[(i-1) % key.length]; //get previous index of key for specific encryptions
+
 			switch(currentKeyCode){ // encrypt next byte based on current key code
 				case '0':
-					nextChar = decrypt0(byteCode);
+					nextCharByteCode = decrypt0(byteCode);
 					break;
 				case '1':
-					nextChar = decrypt1(byteCode);
+					nextCharByteCode = decrypt1(byteCode);
 					break;
 				case '2':
-					nextChar = decrypt2(byteCode);
+					nextCharByteCode = decrypt2(byteCode);
 					break;
 				case '3':
-					nextChar = decrypt3(byteCode);
+					nextCharByteCode = decrypt3(byteCode);
 					break;
 				case '4':
-					nextChar = decrypt4(byteCode);
+					nextCharByteCode = decrypt4(byteCode);
 					break;
 				case '5':
-					nextChar = decrypt5(byteCode);
+					nextCharByteCode = decrypt5(byteCode);
 					break;
 				case '6':
-					nextChar = decrypt6(byteCode);
+					nextCharByteCode = decrypt6(byteCode);
 					break;
 				case '7':
-					nextChar = decrypt7(byteCode);
+					nextCharByteCode = decrypt7(byteCode);
 					break;
 				case '8':
-					nextChar = decrypt8(byteCode);
+					nextCharByteCode = decrypt8(byteCode);
 					break;
 				case '9':
-					nextChar = decrypt9(byteCode);
+					nextCharByteCode = decrypt9(byteCode);
 					break;
 				case 'A':
-					nextChar = decryptA(byteCode);
+					nextCharByteCode = decryptA(byteCode);
 					break;
 				case 'B':
-					nextChar = decryptB(byteCode);
+					nextCharByteCode = decryptB(byteCode);
 					break;
 				case 'C':
-					nextChar = decryptC(byteCode);
+					nextCharByteCode = decryptC(byteCode);
 					break;
 				case 'D':
-					nextChar = decryptD(byteCode);
+					nextCharByteCode = decryptD(byteCode);
 					break;
 				case 'E':
-					nextChar = decryptE(byteCode);
+					nextCharByteCode = decryptE(byteCode);
 					break;
 				case 'F':
-					nextChar = decryptF(byteCode);
+					nextCharByteCode = decryptF(byteCode);
 					break;		
 			}
 
-			plainText += nextChar; // append the decrypted char to the cipher text
+			plainText += String.fromCharCode(nextCharByteCode); // append the decrypted char to the cipher text
 		}
 
 		// write cipher text to output file location
