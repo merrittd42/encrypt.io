@@ -1,19 +1,29 @@
 
 
-/* FILE UPLOAD Javascript to go here */
+/* Code for encryptio frontend
+   By Jon Reed and Dillon Merritt */
 
 
 
-
+// Page elements
 var selector = document.getElementById('selector');
 var mode = document.getElementById('mode');
 var encryptButton = document.getElementById('encryptButton');
-//var encryptButton = document.getElementById('encryptButton');
-//encryptButton.onClick = upload();
+var uploadForm = document.getElementById('uploadForm');
+var inputElement = document.getElementById("input");
+var shiftMag = document.getElementById('shiftMag');
+var shiftMagHidden = document.getElementById('shiftMagF');
+var shiftMagHead = document.getElementById('shiftMagHead');
+var keyPhrase = document.getElementById('keyPhrase');
+var keyPhraseHead = document.getElementById('keyPhraseHead');
+var keyPhraseHidden = document.getElementById('keyPhraseF');
+var file = document.getElementById('file');
+
+// Initial values for selectors
 selector.value = "Caesar Cipher";
 mode.value = "Encrypt";
 
-console.log(mode);
+// Event listeners for selectors
 
 document.addEventListener('DOMContentLoaded',function() {
     mode.onchange=modeChangeEventHandler;
@@ -25,25 +35,9 @@ document.addEventListener('DOMContentLoaded',function() {
     selector.onchange=methodChangeEventHandler;
 },false);
 
-
-
-var uploadForm = document.getElementById('uploadForm');
-
-
-var inputElement = document.getElementById("input");
-
-
-//uploadForm.action = "/upload/encrypt/caesar/";
-
-var shiftMag = document.getElementById('shiftMag');
-var shiftMagHidden = document.getElementById('shiftMagF');
-var shiftMagHead = document.getElementById('shiftMagHead');
-var keyPhrase = document.getElementById('keyPhrase');
-var keyPhraseHead = document.getElementById('keyPhraseHead');
-var keyPhraseHidden = document.getElementById('keyPhraseF');
-var file = document.getElementById('file');
-
 file.addEventListener("change", handleFiles, false);
+
+
 function handleFiles() {
   var fileList = this.files;
 }
@@ -53,6 +47,7 @@ function handleFiles() {
     shiftMagHead.style.visibility = "visible";
     uploadForm.action = "/upload/encrypt/caesar/";
 
+// Method which will update file upload tables based on UI change
 function modeChangeEventHandler(event){
   if(selector.value == "Caesar Cipher" && mode.value == "Encrypt"){
     uploadForm.action = "/upload/encrypt/caesar/";
@@ -120,7 +115,7 @@ function modeChangeEventHandler(event){
 
 }
 
-
+// Reset values on page reset
 shiftMag.style.visibility = "visible";
 shiftMagHead.style.visibility = "visible";
 keyPhrase.style.visibility = "hidden";
@@ -128,8 +123,9 @@ keyPhraseHead.style.visibility = "hidden";
 shiftMag.value = "";
 keyPhrase.value = "";
 
+// Function which updates UI based on encryption mode choice
 function methodChangeEventHandler(event) {
-  modeChangeEventHandler(null);
+  modeChangeEventHandler(null); // Call the mode change event function
   shiftMag.value = "";
   keyPhrase.value = "";
   if(selector.value == "Caesar Cipher"){
@@ -140,10 +136,10 @@ function methodChangeEventHandler(event) {
 
   }
   else if((selector.value == "One Time Pad" || selector.value == "Custom Polyalphabetic") && encryptButton.value == "Decrypt"){
-        keyPhrase.style.visibility = "visible";
-        keyPhraseHead.style.visibility = "visible";
-        shiftMag.style.visibility = "hidden";
-        shiftMagHead.style.visibility = "hidden";
+    keyPhrase.style.visibility = "visible";
+    keyPhraseHead.style.visibility = "visible";
+    shiftMag.style.visibility = "hidden";
+    shiftMagHead.style.visibility = "hidden";
   }
   else if(selector.value == "AES 192" && encryptButton.value == "Decrypt"){
     keyPhrase.style.visibility = "visible";
@@ -159,7 +155,7 @@ function methodChangeEventHandler(event) {
   }
 }
 
-
+// Function on click of the encrypt/decrypt function
 function clicked() {
   var shiftInput = shiftMag.value;
   var keyInput = keyPhrase.value;
@@ -186,11 +182,10 @@ function clicked() {
     }
 }
 
+// Helper function to interface with the server
 function post(file, path, params, method) {
-    method = method || "post"; // Set method to post by default if not specified.
+    method = method || "post";
 
-    // The rest of this code assumes you are not using a library.
-    // It can be made less wordy if you use one.
     var form = document.createElement("form");
     form.setAttribute("method", method);
     form.setAttribute("action", path);
