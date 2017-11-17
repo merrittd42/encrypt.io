@@ -15,8 +15,9 @@ body {
   height: 100%;
       overflow-y: scroll;
   text-shadow: 2px 3px 16px black;
-  background: linear-gradient(315deg, rgba(255, 0, 0, 0.9), rgba(255, 0, 200, 0.4)) center no-repeat;
-  background-size: 100% 200%;
+  background: linear-gradient(315deg, rgba(255, 0, 0, 1.0), rgba(255, 0, 200, 0.7)) center center / cover no-repeat;
+  background-size: 100% 100%;
+  background-attachment: fixed;
 
 
 }
