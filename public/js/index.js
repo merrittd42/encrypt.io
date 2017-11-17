@@ -96,6 +96,20 @@ function modeChangeEventHandler(event){
     keyPhrase.style.visibility = "visible";
     keyPhraseHead.style.visibility = "visible";
   }
+  if (selector.value == "AES 192" && mode.value == "Encrypt") {
+    uploadForm.action = "/upload/encrypt/AES/";
+    shiftMag.style.visibility = "hidden";
+    shiftMagHead.style.visibility = "hidden";
+    keyPhrase.style.visibility = "hidden";
+    keyPhraseHead.style.visibility = "hidden";
+  }
+  else if (selector.value == "AES 192" && mode.value == "Decrypt") {
+    uploadForm.action = "/upload/decrypt/AES/";
+    shiftMag.style.visibility = "hidden";
+    shiftMagHead.style.visibility = "hidden";
+    keyPhrase.style.visibility = "visible";
+    keyPhraseHead.style.visibility = "visible";
+  }
 
   if(mode.value == "Decrypt"){
     encryptButton.value = "Decrypt";
@@ -131,6 +145,12 @@ function methodChangeEventHandler(event) {
         shiftMag.style.visibility = "hidden";
         shiftMagHead.style.visibility = "hidden";
   }
+  else if(selector.value == "AES 192" && encryptButton.value == "Decrypt"){
+    keyPhrase.style.visibility = "visible";
+    keyPhraseHead.style.visibility = "visible";
+    shiftMag.style.visibility = "hidden";
+    shiftMagHead.style.visibility = "hidden";
+  }
   else{
     keyPhrase.style.visibility = "hidden";
     keyPhraseHead.style.visibility = "hidden";
@@ -153,7 +173,11 @@ function clicked() {
       keyPhraseHidden.value = keyInput;
       post(file.value,uploadForm.action, {data: keyInput});
     }
-	else if((selector.value == "Custom Polyalphabetic") && file.value != ""){
+	  else if((selector.value == "Custom Polyalphabetic") && file.value != ""){
+      keyPhraseHidden.value = keyInput;
+      post(file.value,uploadForm.action, {data: keyInput});
+    }
+    else if((selector.value == "AES 192") && file.value != ""){
       keyPhraseHidden.value = keyInput;
       post(file.value,uploadForm.action, {data: keyInput});
     }
